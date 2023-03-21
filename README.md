@@ -65,7 +65,6 @@
 ### Association
 - belongs_to: user
 - belongs_to: item
-- has_one: shipping_address
 
 
 ## categories
@@ -77,7 +76,7 @@
 - has_one: item
 
 
-## shipping_fee_burden
+## shipping_fee_burdens
 | Column                 | Type      | Options     |
 | ---------------------- | --------- | ----------- |
 | shipping_charge_bearer | string    | null: false |
@@ -86,7 +85,7 @@
 - has_one: item
 
 
-## shipping_duration
+## shipping_durations
 | Column                 | Type      | Options     |
 | ---------------------- | --------- | ----------- |
 | dispatch_period        | string    | null: false |
@@ -111,14 +110,3 @@
 
 ### Association
 - belongs_to: shipping_address
-- has_one: credit_cards
-
-
-## credit_cards
-| Column                 | Type      | Options                       |
-| ---------------------- | --------- | ----------------------------- |
-| user                   | string    | null: false                   |
-| card                   | string    | null: false                   |
-
-### Association
-- belongs_to: purchase
