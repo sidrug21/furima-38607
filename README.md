@@ -56,7 +56,7 @@
 - belongs_to_active_hash: prefecture
 
 
-## purchases
+## purchases　テーブル
 | Column                 | Type       | Options                       |
 | ---------------------- | ---------- | ----------------------------- |
 | user                   | references | null: false foreign_key: true |
@@ -65,48 +65,4 @@
 ### Association
 - belongs_to: user
 - belongs_to: item
-
-
-## categories
-| Column                 | Type      | Options     |
-| ---------------------- | --------- | ----------- |
-| category_name          | string    | null: false |
-
-### Association
-- has_one: item
-
-
-## shipping_fee_burdens
-| Column                 | Type      | Options     |
-| ---------------------- | --------- | ----------- |
-| shipping_charge_bearer | string    | null: false |
-
-### Association
-- has_one: item
-
-
-## shipping_durations
-| Column                 | Type      | Options     |
-| ---------------------- | --------- | ----------- |
-| dispatch_period        | string    | null: false |
-
-### Association
-- has_one: item
-
-
-## conditions
-| Column                 | Type      | Options     |
-| ---------------------- | --------- | ----------- |
-| product_condition      | string    | null: false |
-
-### Association
-- has_one: item
-
-
-## prefectures
-| Column                 | Type      | Options     |
-| ---------------------- | --------- | ----------- |
-| prefecture_id          | integer   | null: false |
-
-### Association
-- belongs_to: shipping_address
+- has_one: shipping_address
