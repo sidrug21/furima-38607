@@ -1,57 +1,72 @@
 # テーブル設計
 
 ## users テーブル
-| Column             | Type   | Options     |
-| ------------------ | ------ | ----------- |
-| nickname           | string | null: false |
-| email              | string | null: false |
-| password_digest    | string | null: false |
-| last_name          | string | null: false |
-| first_name         | string | null: false |
-| last_name_kana     | string | null: false |
-| first_name_kana    | string | null: false |
-| birthdate          | date   | null: false |
+| Column             | Type   | Options                   |
+| ------------------ | ------ | ------------------------- |
+| nickname           | string | null: false               |
+| email              | string | null: false, unique: true |
+| password_digest    | string | null: false               |
+| last_name          | string | null: false               |
+| first_name         | string | null: false               |
+| last_name_kana     | string | null: false               |
+| first_name_kana    | string | null: false               |
+| birthdate          | date   | null: false               |
+
+### Association
+- has_many: item
+- has_one: purchase
 
 
 ## items テーブル
-| Column                 | Type      | Options                       |
-| ---------------------- | --------- | ----------------------------- |
-| image                  | string    | null: false                   |
-| user_id                | reference | null: false foreign_key: true |
-| item_name              | string    | null: false                   |
-| description            | text      | null: false                   |
-| category_id            | reference | null: false foreign_key: true |
-| condition              | string    | null: false                   |
-| shipping_fee_burden_id | reference | null: false foreign_key: true |
-| shipping_from_id       | reference | null: false foreign_key: true |
-| shipping_duration_id   | reference | null: false foreign_key: true |
-| price                  | integer   | null: false                   |
+| Column                    | Type      | Options                       |
+| ------------------------- | --------- | ----------------------------- |
+| user                      | reference | null: false foreign_key: true |
+| item_name                 | string    | null: false                   |
+| description               | text      | null: false                   |
+| category_id               | integer   | null: false foreign_key: true |
+| condition_id              | integer   | null: false                   |
+| shipping_fee_burden_id    | integer   | null: false foreign_key: true |
+| prefecture_id             | integer   | null: false foreign_key: true |
+| shipping_duration_id      | integer   | null: false foreign_key: true |
+| price                     | integer   | null: false                   |
+
+### Association
+- belongs_to: user
+- has_one: purchase
+- has_many: shipping_address
+- has_many: condition
+- has_many: shipping_duration
+- has_many: shipping_fee_burden
+- has_many: category
 
 
 ## shipping_addresses テーブル
 | Column                 | Type      | Options                       |
 | ---------------------- | --------- | ----------------------------- |
-| user_id                | reference | null: false foreign_key: true |
+| purchase               | reference | null: false foreign_key: true |
 | postal_code            | integer   | null: false                   |
-| prefecture_id          | reference | null: false foreign_key: true |
+| prefecture_id          | integer   | null: false foreign_key: true |
 | city                   | string    | null: false                   |
 | house_number           | integer   | null: false                   |
-| building_name          | string    | null: false                   |
-| phone_number           | integer   | null: false                   |
+| building_name          | string    |                               |
+| phone_number           | string    | null: false                   |
+
+### Association
+- has_one: purchase
+- belongs_to: items
+- has_many: prefecture
 
 
 ## purchases
 | Column                 | Type      | Options                       |
 | ---------------------- | --------- | ----------------------------- |
-| user_id                | reference | null: false foreign_key: true |
-| item_id                | reference | null: false foreign_key: true |
-| shipping_addresses_id  | reference | null: false foreign_key: true |
+| user                   | reference | null: false foreign_key: true |
+| item                   | reference | null: false foreign_key: true |
 
-
-## shipping_from
-| Column                 | Type      | Options     |
-| ---------------------- | --------- | ----------- |
-| shipping_origin        | string    | null: false |
+### Association
+- belongs_to: user
+- belongs_to: item
+- belongs_to: shipping_address
 
 
 ## categories
@@ -59,11 +74,17 @@
 | ---------------------- | --------- | ----------- |
 | category_name          | string    | null: false |
 
+### Association
+- belongs_to: item
+
 
 ## shipping_fee_burden
 | Column                 | Type      | Options     |
 | ---------------------- | --------- | ----------- |
 | shipping_charge_bearer | string    | null: false |
+
+### Association
+- belongs_to: item
 
 
 ## shipping_duration
@@ -71,23 +92,34 @@
 | ---------------------- | --------- | ----------- |
 | dispatch_period        | string    | null: false |
 
+### Association
+- belongs_to: item
+
 
 ## conditions
 | Column                 | Type      | Options     |
 | ---------------------- | --------- | ----------- |
 | product_condition      | string    | null: false |
 
+### Association
+- belongs_to: item
+
 
 ## prefectures
 | Column                 | Type      | Options     |
 | ---------------------- | --------- | ----------- |
-| delivery_prefecture    | string    | null: false |
+| prefecture_id          | integer   | null: false |
+
+### Association
+- belongs_to: shipping_address
+- has_one: credit_cards
 
 
 ## credit_cards
 | Column                 | Type      | Options                       |
 | ---------------------- | --------- | ----------------------------- |
-| user_id                | reference | null: false foreign_key: true |
-| card_number            | integer   | null: false                   |
-| expiration_date        | bigint    | null: false                   |
-| security_code          | bigint    | null: false                   |
+| user                   | string    | null: false                   |
+| card                   | string    | null: false                   |
+
+### Association
+- belongs_to: purchase
