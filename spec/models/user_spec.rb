@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'ユーザー新規登録' do
     before do
-      @user = User.new(nickname: 'aaaa', email: 'test@example.com', password: 'a000000', password_confirmation: 'a000000', last_name: 'い', first_name: 'あ', last_name_kana: 'イ', first_name_kana: 'ア', birthdate: Date.new(1993, 1, 1))
+      @user = FactoryBot.build(:user)
     end
-  
+
+    describe 'ユーザー新規登録' do
     it 'メールアドレスが必須であること' do
       @user.email = ''
       @user.valid?
@@ -39,6 +39,7 @@ RSpec.describe User, type: :model do
     end
   
     it 'パスワードとパスワード（確認）は、値の一致が必須であること' do
+      @user.password = 'a0000'
       @user.password_confirmation = 'a000001'
       @user.valid?
       expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
