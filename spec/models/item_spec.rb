@@ -10,6 +10,10 @@ RSpec.describe Item, type: :model do
       it 'name, description, category_id, condition_id, shipping_fee_burden_id, prefecture_id, shipping_duration_id, image, priceがあれば商品出品できる' do
         expect(@item).to be_valid
       end
+
+      it 'userが紐付いていれば保存できる' do
+        expect(@item).to be_valid
+      end
     end
 
     context '商品出品がうまくいかないとき' do
@@ -26,31 +30,31 @@ RSpec.describe Item, type: :model do
       end
 
       it 'カテゴリーが未選択では商品出品できない' do
-        @item.category_id = 0
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Category is not included in the list')
       end
 
       it '商品の状態が未選択では商品出品できない' do
-        @item.condition_id = 0
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Condition is not included in the list')
       end
 
       it '配送料の負担が未選択では商品出品できない' do
-        @item.shipping_fee_burden_id = 0
+        @item.shipping_fee_burden_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping fee burden is not included in the list')
       end
 
       it '発送元の地域が未選択では商品出品できない' do
-        @item.prefecture_id = 0
+        @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Prefecture is not included in the list')
       end
 
       it '発送までの日数が未選択では商品出品できない' do
-        @item.shipping_duration_id = 0
+        @item.shipping_duration_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping duration is not included in the list')
       end
@@ -96,6 +100,13 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
+
+      it 'userが紐付いていなければ保存できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
+      end
+      
     end
   end
 end
