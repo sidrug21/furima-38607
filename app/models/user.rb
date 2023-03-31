@@ -16,6 +16,6 @@ class User < ApplicationRecord
   validates :first_name_kana, presence: true, format: { with: VALID_KATAKANA_REGEX }
   validates :birthdate, presence: true
 
-  # has_many :items
-  # has_many :purchases
+  has_many :items
+  has_many :purchases
 end
