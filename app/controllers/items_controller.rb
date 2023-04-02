@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :index]
+  before_action :authenticate_user!, only: [:new, :create]
 
   def index
     @items = Item.all
@@ -7,7 +7,6 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
-    @user = current_user
   end
 
   def create
