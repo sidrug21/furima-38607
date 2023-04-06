@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :prevent_url, only: [:edit, :update, :destroy]
+
   def index
     @items = Item.all
   end
@@ -23,7 +25,6 @@ class ItemsController < ApplicationController
 
   def edit
     if user_signed_in?
-
       redirect_to(root_path) unless current_user == @item.user
     else
       redirect_to(new_user_session_path)
@@ -56,5 +57,11 @@ class ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def prevent_url
+    return unless @item.user_id == current_user.id || !@item.purchase.nil?
+
+    redirect_to root_path
   end
 end
