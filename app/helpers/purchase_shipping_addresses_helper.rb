@@ -1,0 +1,2 @@
+module PurchaseShippingAddressesHelper
+end
