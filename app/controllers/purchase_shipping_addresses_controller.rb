@@ -18,9 +18,6 @@ class PurchaseShippingAddressesController < ApplicationController
     end
   end
 
-  def show
-  end
-
   private
 
   def set_item

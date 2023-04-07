@@ -21,68 +21,74 @@ RSpec.describe PurchaseShippingAddress, type: :model do
     end
 
     context '商品が購入できない場合' do
-      it 'クレカ情報が必須であること' do
+      it 'クレカ情報が空だと保存できない' do
         @purchase_shipping_address.token = ''
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("Token can't be blank")
       end
 
-      it '郵便番号が必須であること' do
+      it '郵便番号が空だと保存できない' do
         @purchase_shipping_address.postal_code = ''
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("Postal code can't be blank")
       end
 
-      it '郵便番号は、「3桁ハイフン4桁」の半角文字列のみ保存可能であること' do
+      it '郵便番号は、ハイフンがない場合保存できない' do
         @purchase_shipping_address.postal_code = '1234567'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
+      end
 
+        it '郵便番号は、「3桁ハイフン4桁」でなければ保存できない' do
         @purchase_shipping_address.postal_code = '1234-567'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
+      end
 
-        @purchase_shipping_address.postal_code = '12-34567'
-        @purchase_shipping_address.valid?
-        expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
-
+        it '郵便番号は、全角が含まれていると保存できない' do
         @purchase_shipping_address.postal_code = '１２３−４５６７'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
       end
 
-      it '都道府県が必須であること' do
-        @purchase_shipping_address.prefecture_id = ''
+      it '都道府県が空だと保存できない' do
+        @purchase_shipping_address.prefecture_id = 1
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("Prefecture can't be blank")
       end
 
-      it '市区町村が必須であること' do
+      it '市区町村が空だと保存できない' do
         @purchase_shipping_address.city = ''
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("City can't be blank")
       end
 
-      it '番地が必須であること' do
+      it '番地が空だと保存できない' do
         @purchase_shipping_address.house_number = ''
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("House number can't be blank")
       end
 
-      it '電話番号が必須であること' do
+      it '電話番号が空だと保存できない' do
         @purchase_shipping_address.phone_number = ''
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("Phone number can't be blank")
       end
 
       it '電話番号が12桁以上だと保存できない' do
-        @purchase_shipping_address.phone_number = '090123456789' # 12桁の数字
+        @purchase_shipping_address.phone_number = '090123456789'
+        @purchase_shipping_address.valid?
+        expect(@purchase_shipping_address.errors.full_messages).to include('Phone number is invalid')
+      end
+
+      it '電話番号が9桁以下だと保存できない' do
+        @purchase_shipping_address.phone_number = '090123456'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Phone number is invalid')
       end
 
       it '電話番号に全角を含むと保存できない' do
-        @purchase_shipping_address.phone_number = '０９０１２３４５６７８' # 全角数字
+        @purchase_shipping_address.phone_number = '０９０１２３４５６７８'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Phone number is invalid')
       end

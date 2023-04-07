@@ -14,7 +14,6 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
   has_one :purchase
-  # belongs_to :purchase_shipping_address, class_name: 'Prefecture'
   belongs_to :condition
   belongs_to :shipping_duration
   belongs_to :shipping_fee_burden
