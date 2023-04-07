@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :prevent_url, only: [:edit, :update, :destroy]
+  before_action :prevent_url, only: [:update, :destroy]
 
   def index
     @items = Item.all
