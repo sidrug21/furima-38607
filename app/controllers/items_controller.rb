@@ -61,7 +61,7 @@ class ItemsController < ApplicationController
 
   def prevent_url
     return if current_user == @item.user && @item.purchase.nil?
-  
+
     redirect_to root_path
-  end  
+  end
 end

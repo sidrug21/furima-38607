@@ -21,6 +21,18 @@ RSpec.describe PurchaseShippingAddress, type: :model do
     end
 
     context '商品が購入できない場合' do
+      it 'user_idが空だと保存できない' do
+        @purchase_shipping_address.user_id = ''
+        @purchase_shipping_address.valid?
+        expect(@purchase_shipping_address.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'item_idが空だと保存できない' do
+        @purchase_shipping_address.item_id = ''
+        @purchase_shipping_address.valid?
+        expect(@purchase_shipping_address.errors.full_messages).to include("Item can't be blank")
+      end
+
       it 'クレカ情報が空だと保存できない' do
         @purchase_shipping_address.token = ''
         @purchase_shipping_address.valid?
@@ -39,13 +51,13 @@ RSpec.describe PurchaseShippingAddress, type: :model do
         expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
       end
 
-        it '郵便番号は、「3桁ハイフン4桁」でなければ保存できない' do
+      it '郵便番号は、「3桁ハイフン4桁」でなければ保存できない' do
         @purchase_shipping_address.postal_code = '1234-567'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
       end
 
-        it '郵便番号は、全角が含まれていると保存できない' do
+      it '郵便番号は、全角が含まれていると保存できない' do
         @purchase_shipping_address.postal_code = '１２３−４５６７'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include('Postal code is invalid')
